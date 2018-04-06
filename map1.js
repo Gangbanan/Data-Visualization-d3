@@ -58,5 +58,6 @@ document.getElementById("numDots").addEventListener('change', function(){
     .style("fill",function(d,i){
       return '#00' + degHex + "00"; 
     })
+    
 });
 
