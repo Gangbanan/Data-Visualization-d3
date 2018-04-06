@@ -13,7 +13,6 @@ var svg = d3.select("body").append("svg")
 
 // load data  data/oh-albers-color.ndjson
 d3.json("data/oh-albers-density.json", function(error, ohio) {
-    console.log(ohio)
     // if data is topojson
     // var ohio = ohio.feature(ohio, ohio.objects.counties);
 
@@ -38,14 +37,26 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
       .attr("class", "region")
       .attr("d", geoGenerator)
       .style("fill", function(d,i) {
-        if (d['properties']['density'] < 2000) return 'white';
         return '#aca'; 
       })
       .style("stroke", "#000")
       .style("stroke-width", "0.5px")
+});
 
+function hexColour(c) {
+  if (c < 256) {
+    return Math.abs(c).toString(16);
+  }
+  return 0;
+}
 
-
-
+document.getElementById("numDots").addEventListener('change', function(){
+    deg = document.getElementById("numDots").value;
+    degHex = hexColour(deg)
+    if (degHex.length < 2) { degHex = "0" + degHex;}
+    svg.selectAll('path')
+    .style("fill",function(d,i){
+      return '#00' + degHex + "00"; 
+    })
 });
 
