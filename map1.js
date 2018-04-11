@@ -6,6 +6,9 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
     height = 500 - margin.top - margin.bottom;
 var preYear = 1851
 
+
+// temperatur ranges from 5 to 14
+
 var value2color = d3.scale.threshold()
     .domain([5, 6.5, 8, 9.5, 11 , 12.5, 14])
     .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
@@ -13,6 +16,16 @@ var value2color = d3.scale.threshold()
 var x = d3.scale.linear()
         .domain([4, 15])
         .range([0, 300]);
+
+// // rainfall   ranges from 1.5 to 6
+// var value2color = d3.scale.threshold()
+//     .domain([2, 2.5, 3, 3.5, 4, 4.5, 5])
+//     .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
+
+// var x = d3.scale.linear()
+//         .domain([1.5, 6])
+//         .range([0, 300]); 
+
 
 var formatNumber = d3.format("s");
 
@@ -50,9 +63,12 @@ g.call(xAxis)
     .attr("y", -6)
     .text("Temperature");
 
+var minV = 100;
+var maxV = 0;
+
 // load data  data/oh-albers-color.ndjson
 // 1851-2014
-d3.json("data/oh-temp2.json", function(error,tempData) {
+d3.json("data/oh-temp.json", function(error,tempData) {
     
 // load data  data/oh-albers-color.ndjson
 d3.json("data/oh-albers-density.json", function(error, ohio) {
@@ -92,10 +108,15 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
       svg.selectAll('path')
       .transition().duration(1000)
       .style("fill",function(d,i){
+
           // tempData['year'][d['id']] for temperature in this polygon in this year
           yearData = tempData["" + year]
+          if (yearData[d['id']] < minV) { minV = yearData[d['id']]; }
+          if (yearData[d['id']] > maxV) { maxV = yearData[d['id']]; }
           return value2color(yearData[d['id']]);
       })
+      console.log(minV)
+      console.log(maxV)
   });
 
 });
