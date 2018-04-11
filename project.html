@@ -10,10 +10,22 @@
     <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+    <script src="https://d3js.org/d3-path.v1.min.js"></script>
+    <script src="https://d3js.org/d3-shape.v1.min.js"></script>
+    <script src="https://d3js.org/d3-axis.v1.min.js"></script>
   </head>
   <style>
     body {
       font: 11px sans-serif;
+    }
+    .slidecontainer{
+      width: 940px;
+      height: 200px;
+      margin-right: 20px;
+      margin-left: 0px;
     }
     .slider {
       -webkit-appearance: none;
@@ -50,12 +62,23 @@
 	  stroke: #000;
 	  shape-rendering: crispEdges;
 	}
+  .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px;
+  }
+  .dot {
+    fill: #ffab00;
+    stroke: #fff;
+  }
   </style>
   <div id="chart"></div>
+  <script type="text/javascript" src="map1.js"></script>
+  <div id="linechart"></div>
   <div class="slidecontainer">
     <input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
   </div>
-  <script type="text/javascript" src="map1.js"></script>
+  <script type="text/javascript" src="line_chart.js"></script>
 </body>
 
 </html>
