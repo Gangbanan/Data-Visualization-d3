@@ -101,8 +101,6 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
 
 });
 
-
-
   document.getElementById("numDots").addEventListener('change', function(){
       year = document.getElementById("numDots").value;
       svg.selectAll('path')
