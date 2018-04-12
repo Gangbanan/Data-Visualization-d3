@@ -9,6 +9,15 @@ var linexScale = d3.scale.linear()
 
 var lineyScale = d3.scale.linear()
                     .range([height, 0]);
+// Define x axis
+var x = d3.time.scale().range([0, width]); 
+var xScale =  d3.scaleTime() 
+    .domain([new Date(1851, 0, 1), new Date(2014, 0, 1, 0)]) 
+    .rangeRound([0,width - 0]); 
+var xAxis = d3.svg.axis() 
+    .scale(xScale) 
+    .tickSize(1) 
+    .tickFormat(d3.timeFormat("%Y")); 
 
 // Define the line
 var valueline = d3.line()
@@ -49,6 +58,12 @@ d3.csv("data/oh-temp.csv", function(error, data) {
         .data([data])
         .attr("class", "line")
         .attr("d", valueline);
+        
+    // Add x axis
+    svg.append("g") 
+        .attr("class", "x axis") 
+        .attr("transform", "translate(0,"+height/3+")") 
+        .call(xAxis); 
 
     svg.append("circle")
         .attr("class", "dot") // Assign a class for styling
