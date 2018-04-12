@@ -10,11 +10,13 @@ var linexScale = d3.scale.linear()
 var lineyScale = d3.scale.linear()
                     .range([height, 0]);
 // Define x axis
-var x = d3.time.scale().range([0, width]); 
+var x = d3.time.scale().range([0, width]);
+
 var xScale =  d3.scaleTime() 
     .domain([new Date(1851, 0, 1), new Date(2014, 0, 1, 0)]) 
-    .rangeRound([0,width - 0]); 
-var xAxis = d3.svg.axis() 
+    .rangeRound([0,width - 0]);
+
+var xAxis = d3.svg.axis()
     .scale(xScale) 
     .tickSize(1) 
     .tickFormat(d3.timeFormat("%Y")); 
@@ -24,6 +26,11 @@ var valueline = d3.line()
     .x(function(d) { return linexScale(d.time); })
     .y(function(d) { return lineyScale(d.temp); });
 
+// // Define for tooltip
+// var tooltip = d3.select("body").append("div")	
+//     .attr("class", "tooltip")				
+//     .style("opacity", 0);
+
 // Adds the svg canvas
 var svg = d3.select("#linechart")
     .append("svg")
@@ -31,6 +38,8 @@ var svg = d3.select("#linechart")
         .attr("height", height + linemg.top + linemg.bottom)
     .append("g")
         .attr("transform", "translate(" + linemg.left + "," + linemg.top + ")");
+
+var text = d3.select("#displaybox")
 
 d3.select("#numDots")
     .attr("width", width + linemg.left + linemg.right)
@@ -58,7 +67,7 @@ d3.csv("data/oh-temp.csv", function(error, data) {
         .data([data])
         .attr("class", "line")
         .attr("d", valueline);
-        
+
     // Add x axis
     svg.append("g") 
         .attr("class", "x axis") 
@@ -76,6 +85,29 @@ d3.csv("data/oh-temp.csv", function(error, data) {
             return lineyScale(dataDict[year]);
         })
         .attr("r", 5);
+        // // tooltip
+        // .on("mouseover", function(d) {
+        //     year = document.getElementById("numDots").value;
+        //     tooltip.transition()
+        //         .duration(20)
+        //         .style("opacity", .9);
+        //     tooltip.html(year + "<br/>"  + dataDict[year])
+        //         .style("left", d3.event.pageX + "px")
+        //         .style("top", d3.event.pageY+500 + "px");
+        //     })
+        // .on("mouseout", function(d) {
+        //     tooltip.transition()
+        //         .duration(50)
+        //         .style("opacity", 0);
+        // });
+    text.append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            year = document.getElementById("numDots").value;
+            return "Year: " + year + " Temperature: "  + dataDict[year];
+        });
 
     document.getElementById("numDots").addEventListener('change', function(){
         year = document.getElementById("numDots").value;
@@ -86,6 +118,11 @@ d3.csv("data/oh-temp.csv", function(error, data) {
             })
             .attr("cy", function(d) {
                 return lineyScale(dataDict[year]);
+            })
+
+        text.select("text")
+            .text(function(d) {
+                return "Year: " + year + " Temperature: "  + dataDict[year];
             })
     });
       

@@ -23,10 +23,9 @@
     }
     .slidecontainer{
       width: 940px;
-      height: 200px;
+      height: 15px;
       margin-right: 20px;
       margin-left: 10px;
-      margin-right: 20px;
     }
     .slider {
       -webkit-appearance: none;
@@ -41,7 +40,6 @@
     }
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
       width: 15px;
       height: 15px;
       border-radius: 50%;
@@ -78,6 +76,7 @@
   <div class="slidecontainer">
     <input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
   </div>
+  <div id="displaybox"></div>
   <script type="text/javascript" src="line_chart.js"></script>
   <script type="text/javascript" src="map1.js"></script>
 </body>
