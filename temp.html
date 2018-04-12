@@ -1,89 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <title>
-        Temperature
-      </title>
-      <script src="https://d3js.org/d3.v4.min.js"></script>
-      <style type="text/css">
-          text {
-            font-family: "Helvetica Neue", Helvetica, sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            fill: black;
-            text-anchor: middle;
-          }
-      </style>
-  </head>
-  <style>
-    body {
-      text-align: center;
-      font-size: 18px;
-    }
-  </style>
-  <body>
-    <header>
-      <h1>Temperature</h1>
-    </header>
-    <div class="topnav">
-      <a class="active" href="#About">About</a>
-      <a href="#Temperature">Temperature</a>
-      <a href="#Precipitation">Precipitation</a>
-    </div>
-    <div id="Introduction">
-      <h2>Introduction</h2>
-      <h> This project is designed by Prof. Yvette Shen and Prof. Han-Wei Shen 
-          for Design and CSE student to collaborate together. </h>
-      <h2>Project Statement</h2>
-      <h>Although there have been large amounts of research on the subject of global 
-          warming, there are still not enough personal and societal action is being 
-          taken to reduce the effect of the phenomenon. Climate change is gradual, 
-          so it is difficult for people to conceptualize the urgency of the problem. 
-          We will show how precipitation and temperature have changed over 
-          the last 100 years to affect Ohio specifically. The purpose of this 
-          visualization is to show precipitation and temperature change in an easy 
-          to understand and interactive format to inspire change to protect the environment 
-          in our local Ohio communities.</h>
-	  <h2>Our Project</h2>
-      <h>This interactive website shows the climate change that the state of Ohio has gone through 
-	     in the past 100 years. We have used the visualization library D3 to display the state 
-		 of Ohio and data from the National Oceanic & Atmospheric Administration. The user
-		 can slide through past century with a movable bar and directly see how temperature and
-		 precipitation have changed. This interactive website should make it clear to any user
-		 the real effects climate change has had on their home state, and help to motivate them
-		 to change their lifestyles to reduce further damage to the environment.</h>
-    </div>
-	
-    <div id="chart"></div>
-    <style type='text/css'>
-        /* Add a black background color to the top navigation */
-        .topnav {
-            background-color: #333;
-            overflow: hidden;
-        }
 
-        /* Style the links inside the navigation bar */
-        .topnav a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
+	<head>
+		<title>Ohio Temperature</title>
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<link rel="stylesheet" href="stylesheet.css">
+	</head>
+	<body>
+		<header>
+			<h1>Temperature Change in Ohio</h1>
+			<nav class="topnav">
+				<a class="active" href="temp.html">Temperature</a>
+				<a href="#Precipitation">Precipitation</a>
+				<a href="about.html">About</a>
+			</nav>
+		</header>
+		<main>
+			<div class="left-section">
+				<h2>Temperature</h2>
+				<p>Although there have been large amounts of research on the subject of global 
+			  warming, there are still not enough personal and societal action is being 
+			  taken to reduce the effect of the phenomenon. Climate change is gradual, 
+			  so it is difficult for people to conceptualize the urgency of the problem. 
+			  We will show how precipitation, temperature, and wind flow have changed over 
+			  the last 100 years to affect Ohio specifically. The purpose of this 
+			  visualization is to show precipitation, temperature, and wind data in an easy 
+			  to understand and interactive format to inspire change to protect the environment 
+			  in our local Ohio communities.</p>
+			</div>
+			<div id="chart">map of ohio goes here</div>
+			<div id="slider">slider can go here</div>
+			<div class="right-section">
+				<h2>Key</h2>
+				<p>&cent; &euro; a&#771; a&#771; &DiacriticalDot; &bull;</p>
+			</div>
+			<!--<div id="chart"></div>-->
+		</main>
+		<footer>
+		
+		</footer>
 
-        /* Change the color of links on hover */
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+  
 
-        /* Add a color to the active/current link */
-        .topnav a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
     </script>
