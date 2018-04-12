@@ -102,7 +102,7 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
   document.getElementById("numDots").addEventListener('change', function(){
       year = document.getElementById("numDots").value;
       chartSvg.selectAll('path')
-      .transition().duration(1000)
+      .transition().duration(400)
       .style("fill",function(d,i){
 
           // tempData['year'][d['id']] for temperature in this polygon in this year
