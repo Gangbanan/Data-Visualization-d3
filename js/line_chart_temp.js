@@ -1,6 +1,6 @@
 
 // Set the dimensions of the canvas / graph
-var linemg = {top: 10, right: 20, bottom: 50, left: 20},
+var linemg = {top: 10, right: 20, bottom: 10, left: 20},
     width = 950 - linemg.left - linemg.right,
     height = 180 - linemg.top - linemg.bottom;
 
@@ -14,7 +14,7 @@ var x = d3.time.scale().range([0, width]);
 
 var xScale =  d3.scaleTime() 
     .domain([new Date(1851, 0, 1), new Date(2014, 0, 1, 0)]) 
-    .rangeRound([0,width - 0]);
+    .rangeRound([0,width]);
 
 var xAxis = d3.svg.axis()
     .scale(xScale) 
@@ -39,7 +39,8 @@ var svg = d3.select("#linechart")
     .append("g")
         .attr("transform", "translate(" + linemg.left + "," + linemg.top + ")");
 
-var text = d3.select("#displaybox")
+var text_year = d3.select("#displaybox_year")
+var text_data = d3.select("#displaybox_data")
 
 d3.select("#numDots")
     .attr("width", width + linemg.left + linemg.right)
@@ -68,11 +69,11 @@ d3.csv("data/oh-temp.csv", function(error, data) {
         .attr("class", "line")
         .attr("d", valueline);
 
-    // Add x axis
-    svg.append("g") 
-        .attr("class", "x axis") 
-        .attr("transform", "translate(0,"+height/3+")") 
-        .call(xAxis); 
+    // // Add x axis
+    // svg.append("g") 
+    //     .attr("class", "x axis") 
+    //     .attr("transform", "translate(0,"+height/3+")") 
+    //     .call(xAxis); 
 
     svg.append("circle")
         .attr("class", "dot") // Assign a class for styling
@@ -100,13 +101,22 @@ d3.csv("data/oh-temp.csv", function(error, data) {
         //         .duration(50)
         //         .style("opacity", 0);
         // });
-    text.append("text")
+    text_year.append("text")
         .attr("x", 0)
         .attr("y", 0)
         .attr("dy", ".35em")
         .text(function(d) {
             year = document.getElementById("numDots").value;
-            return "Year: " + year + " Temperature: "  + dataDict[year];
+            return "Year: " + year;
+        });
+
+    text_data.append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            year = document.getElementById("numDots").value;
+            return "Temperature: "  + dataDict[year];
         });
 
     document.getElementById("numDots").addEventListener('change', function(){
@@ -120,9 +130,14 @@ d3.csv("data/oh-temp.csv", function(error, data) {
                 return lineyScale(dataDict[year]);
             })
 
-        text.select("text")
+        text_year.select("text")
             .text(function(d) {
-                return "Year: " + year + " Temperature: "  + dataDict[year];
+                return "Year: " + year;
+            })
+        
+        text_data.select("text")
+            .text(function(d) {
+                return "Temperature: "  + dataDict[year];
             })
     });
       
