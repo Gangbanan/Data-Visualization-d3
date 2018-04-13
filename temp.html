@@ -1,48 +1,109 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML>
 <html>
+
 	<head>
 		<title>Ohio Temperature</title>
-		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script type="text/javascript" src="js/d3/d3.min.js"></script>
+		<script src="https://d3js.org/d3-array.v1.min.js"></script>
+		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+		<script src="https://d3js.org/d3-time.v1.min.js"></script>
+		<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+		<script src="https://d3js.org/d3-scale.v2.min.js"></script>
+		<script src="https://d3js.org/d3-path.v1.min.js"></script>
+		<script src="https://d3js.org/d3-shape.v1.min.js"></script>
+		<script src="https://d3js.org/d3-axis.v1.min.js"></script>
 		<link rel="stylesheet" href="stylesheet.css">
 	</head>
-	<body>
-		<header>
+
+<body>
+  <style>
+    body {
+      font: 11px sans-serif;
+    }
+    .slidecontainer{
+      width: 940px;
+      height: 15px;
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+    .slider {
+      -webkit-appearance: none;
+      width: 915px;
+      height: 8px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    .key path {
+	  display: none;
+	}
+
+	.key line {
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+  .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px;
+  }
+  .dot {
+    fill: #ffab00;
+    stroke: #fff;
+  }
+  </style>
+  <header>
 			<h1>Temperature Change in Ohio</h1>
 			<nav class="topnav">
 				<a class="active" href="temp.html">Temperature</a>
-				<a href="#Precipitation">Precipitation</a>
+				<a href="precip.html">Precipitation</a>
 				<a href="about.html">About</a>
 			</nav>
 		</header>
 		<main>
 			<div class="left-section">
 				<h2>Temperature</h2>
-				<p>Although there have been large amounts of research on the subject of global 
-			  warming, there are still not enough personal and societal action is being 
-			  taken to reduce the effect of the phenomenon. Climate change is gradual, 
-			  so it is difficult for people to conceptualize the urgency of the problem. 
-			  We will show how precipitation, temperature, and wind flow have changed over 
-			  the last 100 years to affect Ohio specifically. The purpose of this 
-			  visualization is to show precipitation, temperature, and wind data in an easy 
-			  to understand and interactive format to inspire change to protect the environment 
-			  in our local Ohio communities.</p>
+				<p>The global temperature rise has been the clearest symptom of human-caused climate change.
+				The average surface temperature of Earth has risen by about 2.0 degrees Fahrenheit since the 
+				beginning of the industrial revolution. Most of that rise has also happened within the last 
+				35 years. While the number may seem small, this effect will only grow in the future. It has
+				already had severe effects, especially the increasing activity of severe weather events and 
+				warming/rising oceans. Developing countries usually bear the most of these effects, but even
+				the United States will have severe consequences from climate change in the future. The interactive
+				chart displays the average temperature change in Ohio, showing clear trends in our home state.</p>
 			</div>
-			<div id="chart">map of ohio goes here</div>
-			<div id="slider">slider can go here</div>
-			<div class="right-section">
-				<h2>Key</h2>
-				<p>&cent; &euro; a&#771; a&#771; &DiacriticalDot; &bull;</p>
+			<div id="chart"></div>
+			<div id="linechart"></div>
+			<div class="slidecontainer">
+				<input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
 			</div>
-			<!--<div id="chart"></div>-->
+			<div id="displaybox"></div>
 		</main>
 		<footer>
 		
 		</footer>
+  <script type="text/javascript" src="js/line_chart.js"></script>
+  <script type="text/javascript" src="js/map1.js"></script>
+</body>
 
-  
-<!-- >>>>>>> e0f7aeec72fc441bd8677a2239e76ca78ef21e77 -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script>
-    </script>
-  </body>
 </html>

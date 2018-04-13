@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<title>Ohio Precipitation</title>
+		<script type="text/javascript" src="js/d3/d3.min.js"></script>
+		<script src="https://d3js.org/d3-array.v1.min.js"></script>
+		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+		<script src="https://d3js.org/d3-time.v1.min.js"></script>
+		<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+		<script src="https://d3js.org/d3-scale.v2.min.js"></script>
+		<script src="https://d3js.org/d3-path.v1.min.js"></script>
+		<script src="https://d3js.org/d3-shape.v1.min.js"></script>
+		<script src="https://d3js.org/d3-axis.v1.min.js"></script>
+		<link rel="stylesheet" href="stylesheet.css">
+	</head>
+
+<body>
+  <style>
+    body {
+      font: 11px sans-serif;
+    }
+    .slidecontainer{
+      width: 940px;
+      height: 15px;
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+    .slider {
+      -webkit-appearance: none;
+      width: 915px;
+      height: 8px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    .key path {
+	  display: none;
+	}
+
+	.key line {
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+  .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px;
+  }
+  .dot {
+    fill: #ffab00;
+    stroke: #fff;
+  }
+  </style>
+  <header>
+			<h1>Precipitation Change in Ohio</h1>
+			<nav class="topnav">
+				<a class="active" href="precip.html">Precipitation</a>
+				<a href="temp.html">Temperature</a>
+				<a href="about.html">About</a>
+			</nav>
+		</header>
+		<main>
+			<div class="left-section">
+				<h2>Precipitation</h2>
+				<p>There has been a small increase in precipitation across the United States
+				over the past century. However, natural variability is high for precipitation,
+				and it is difficult to attribute human activity over large swaths of area.
+				This is because while there may only be a small increase in precipitation
+				over the entire country, the extreme effects of different regions balance
+				the averages out. As climate change progresses, the Northern states have seen
+				large increases in precipitation, while the SouthWest has become much drier.
+				Ohio isn't directly in an extreme zone of change, but the change shown in the 
+				chart will only accelerate if the use of heat-trapping emissions is not curbed.</p>
+			</div>
+			<div id="chart"></div>
+			<div id="linechart"></div>
+			<div class="slidecontainer">
+				<input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
+			</div>
+			<div id="displaybox"></div>
+		</main>
+		<footer>
+		
+		</footer>
+  <script type="text/javascript" src="js/line_chart.js"></script>
+  <script type="text/javascript" src="js/map2.js"></script>
+</body>
+
+</html>
+
