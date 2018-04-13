@@ -22,23 +22,26 @@
     body {
       font: 11px sans-serif;
     }
-    .slidecontainer{
-      width: 940px;
+
+    .slidecontainer {
+      width: 950px;
       height: 15px;
       margin-right: 20px;
       margin-left: 10px;
     }
+
     .slider {
       -webkit-appearance: none;
-      width: 915px;
-      height: 8px;
+      width: 925px;
+      height: 1px;
       border-radius: 5px;
-      background: #d3d3d3;
+      background: #000000;
       outline: none;
-      opacity: 0.7;
+      opacity: 1;
       -webkit-transition: .2s;
       transition: opacity .2s;
     }
+
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 15px;
@@ -47,6 +50,7 @@
       background: #4CAF50;
       cursor: pointer;
     }
+
     .slider::-moz-range-thumb {
       width: 15px;
       height: 15px;
@@ -54,23 +58,45 @@
       background: #4CAF50;
       cursor: pointer;
     }
-    .key path {
-	  display: none;
-	}
 
-	.key line {
-	  stroke: #000;
-	  shape-rendering: crispEdges;
-	}
-  .line {
-        fill: none;
-        stroke: steelblue;
-        stroke-width: 2px;
-  }
-  .dot {
-    fill: #ffab00;
-    stroke: #fff;
-  }
+    .key path {
+      display: none;
+    }
+
+    .key line {
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
+
+    .dot {
+      fill: #ffab00;
+      stroke: #fff;
+    }
+
+    .xaxis{
+      text-align: justify;
+      text-anchor: middle;
+      color: #000000;
+      min-width: 908px;
+      table-layout: fixed;
+      display:table-cell;
+    }
+    
+    .xaxis:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    }
+
+    .xaxis li {
+    display: inline-block;
+    }
   </style>
   <header>
 			<h1>Precipitation Change in Ohio</h1>
@@ -96,15 +122,34 @@
 			<div id="chart"></div>
 			<div id="linechart"></div>
 			<div class="slidecontainer">
-				<input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
+        <input id="numDots" type="range" max='2014' min='1851' value='1851' class="slider">
+        <g class="xaxis">
+            <li>1850</li>
+            <li>1860</li>
+            <li>1870</li>
+            <li>1880</li>
+            <li>1890</li>
+            <li>1900</li>
+            <li>1910</li>
+            <li>1920</li>
+            <li>1930</li>
+            <li>1940</li>
+            <li>1950</li>
+            <li>1960</li>
+            <li>1970</li>
+            <li>1980</li>
+            <li>1990</li>
+            <li>2000</li>
+            <li>2010</li>
+          </g>
 			</div>
-			<div id="displaybox"></div>
+      <div id="displaybox_year"></div>
+      <div id="displaybox_data"></div>
 		</main>
 		<footer>
-		
 		</footer>
-  <script type="text/javascript" src="js/line_chart.js"></script>
-  <script type="text/javascript" src="js/map2.js"></script>
+  <script type="text/javascript" src="js/line_chart_precip.js"></script>
+  <script type="text/javascript" src="js/map1.js"></script>
 </body>
 
 </html>
