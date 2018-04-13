@@ -117,7 +117,7 @@ d3.csv("data/precip-ts.csv", function(error, data) {
         .attr("dy", ".35em")
         .text(function(d) {
             year = document.getElementById("numDots").value;
-            return "Temperature: "  + dataDict[year];
+            return "Precipitation: "  + dataDict[year];
         });
 
     document.getElementById("numDots").addEventListener('change', function(){
@@ -138,7 +138,7 @@ d3.csv("data/precip-ts.csv", function(error, data) {
         
         text_data.select("text")
             .text(function(d) {
-                return "Temperature: "  + dataDict[year];
+                return "Precipitation: "  + dataDict[year];
             })
     });
       
