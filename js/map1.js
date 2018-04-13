@@ -61,7 +61,7 @@ g.selectAll("rect")
 g.call(colorAxis)
     .append("text")
     .attr("y", -6)
-    .text("Temperature");
+    .text("Average Temperature (Celsius)");
 
 // load data  data/oh-albers-color.ndjson
 // 1851-2014
