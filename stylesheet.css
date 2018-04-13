@@ -95,7 +95,6 @@ main{
 #chart{
 	width: 800px;
 	height: 800px;
-	background-color: aqua;
 	position: relative;
 	left: 320px;
 	top: 0;
@@ -104,7 +103,6 @@ main{
 #slider{
 	width: 800px;
 	height: 100px;
-	background-color: aqua;
 	position: relative;
 	left: 320px;
 	top: 16px;
