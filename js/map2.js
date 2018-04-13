@@ -61,7 +61,7 @@ g.selectAll("rect")
 g.call(colorAxis)
     .append("text")
     .attr("y", -6)
-    .text("Temperature");
+    .text("Average Precipitation (mm/day)");
 
 // load data  data/oh-albers-color.ndjson
 // 1851-2014
