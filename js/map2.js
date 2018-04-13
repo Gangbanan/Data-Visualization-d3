@@ -9,22 +9,22 @@ var preYear = 1851
 
 // temperatur ranges from 5 to 14
 
-var value2color = d3.scale.threshold()
-    .domain([5, 6.5, 8, 9.5, 11 , 12.5, 14])
-    .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
-
-var colorx = d3.scale.linear()
-        .domain([4, 15])
-        .range([0, 300]);
-
-// // rainfall   ranges from 1.5 to 6
 // var value2color = d3.scale.threshold()
-//     .domain([2, 2.5, 3, 3.5, 4, 4.5, 5])
+//     .domain([5, 6.5, 8, 9.5, 11 , 12.5, 14])
 //     .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
 
-// var x = d3.scale.linear()
-//         .domain([1.5, 6])
-//         .range([0, 300]); 
+// var colorx = d3.scale.linear()
+//         .domain([4, 15])
+//         .range([0, 300]);
+
+// rainfall   ranges from 1.5 to 6
+var value2color = d3.scale.threshold()
+    .domain([2, 2.5, 3, 3.5, 4, 4.5, 5])
+    .range(["#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"]);
+
+var colorx = d3.scale.linear()
+        .domain([1.5, 6])
+        .range([0, 300]); 
 
 
 var formatNumber = d3.format("s");
@@ -61,11 +61,12 @@ g.selectAll("rect")
 g.call(colorAxis)
     .append("text")
     .attr("y", -6)
-    .text("Average Temperature (Celsius)");
+    .text("Average Precipitation (mm/day)");
 
 // load data  data/oh-albers-color.ndjson
 // 1851-2014
-d3.json("data/oh-temp.json", function(error,tempData) {
+d3.json("data/oh-precip.json", function(error,tempData) {
+//d3.json("data/oh-temp.json", function(error,tempData) {
     
 // load data  data/oh-albers-color.ndjson
 d3.json("data/oh-albers-density.json", function(error, ohio) {
