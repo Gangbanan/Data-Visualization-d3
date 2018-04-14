@@ -7,25 +7,22 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
 var preYear = 1851
 
 
-// temperatur ranges from 5 to 14
+// temperature ranges from 5 to 14
 
 var value2color = d3.scale.threshold()
     .domain([5, 6.5, 8, 9.5, 11 , 12.5, 14])
-    .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
+    .range(["#1230FC", "#448CFF", "#CCDCFF", "#FFFF86", "#FFFF20", "#FD8308", "#FA3407", "#F10006"]);
+    // .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"])
+
+// three color range
+var axisDomain = [5, 6.5, 8, 9.5, 11 , 12.5, 14];
+// var value2color = d3.scale.linear()
+//                   .domain([4, 9.5, 15])
+//                   .range(["#18517F", "#38A03F," "#EFB223,"]);
 
 var colorx = d3.scale.linear()
         .domain([4, 15])
         .range([0, 300]);
-
-// // rainfall   ranges from 1.5 to 6
-// var value2color = d3.scale.threshold()
-//     .domain([2, 2.5, 3, 3.5, 4, 4.5, 5])
-//     .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"]);
-
-// var x = d3.scale.linear()
-//         .domain([1.5, 6])
-//         .range([0, 300]); 
-
 
 var formatNumber = d3.format("s");
 
@@ -33,8 +30,9 @@ var colorAxis = d3.svg.axis()
     .scale(colorx)
     .orient("bottom")
     .tickSize(13)
-    .tickValues(value2color.domain())
+    .tickValues(axisDomain)
     .tickFormat(function(d) { return formatNumber(d); });
+
 
 // add the graph canvas to the body of the webpage
 var chartSvg = d3.select("#chart").append("svg")
@@ -94,7 +92,8 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
             return value2color(yearData[d['id']]);
         })
         .style("stroke", "#000")
-        .style("stroke-width", "0.5px");
+        .style("stroke-opacity", 0)
+        .style("stroke-width", "0px");
 
 
 });
