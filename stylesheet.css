@@ -94,8 +94,7 @@ main{
 /* placement for the map of Ohio */
 #chart{
 	width: 800px;
-	height: 800px;
-	background-color: aqua;
+	height: 350px;
 	position: relative;
 	left: 320px;
 	top: 0;
