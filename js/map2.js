@@ -28,7 +28,7 @@ var colorx = d3.scale.linear()
 
 var formatNumber = d3.format("s");
 function _f(d){
-  var mutiCoef = 3
+  var mutiCoef = 10
   var x = +d3.format(".0f")(d*mutiCoef);
   return x/mutiCoef;
 }
@@ -106,7 +106,6 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
         .style("fill", function(d,i) {
             year = document.getElementById("numDots").value;
             rectData = _f(tempData["" + year][d['id']])
-            console.log(rectData)
             return value2color(rectData);
         })
         .style("stroke", function(d,i) {
@@ -121,20 +120,31 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
 
   document.getElementById("numDots").addEventListener('change', function(){
       year = document.getElementById("numDots").value;
-      chartSvg.selectAll('path')
-      .transition().duration(400)
-      .style("fill",function(d,i){
+      year = +year;
+      var ttYear = 0;
+      dur = 200;
+      while (year != preYear) {
+          if (year > preYear) preYear += 1;
+          if (year < preYear) preYear -= 1;
+          console.log(preYear)
+          chartSvg.selectAll('path')
+          .transition()
+          .delay(dur*ttYear)
+          .duration(dur)
+          .style("fill",function(d,i){
 
-          // tempData['year'][d['id']] for temperature in this polygon in this year
-          rectData = _f(tempData["" + year][d['id']])
-          return value2color(rectData);
-      })
-      .style("stroke",function(d,i){
+              // tempData['year'][d['id']] for temperature in this polygon in this year
+              rectData = _f(tempData["" + preYear][d['id']])
+              return value2color(rectData);
+          })
+          .style("stroke",function(d,i){
 
-          // tempData['year'][d['id']] for temperature in this polygon in this year
-          rectData = _f(tempData["" + year][d['id']])
-          return value2color(rectData);
-      })
+              // tempData['year'][d['id']] for temperature in this polygon in this year
+              rectData = _f(tempData["" + preYear][d['id']])
+              return value2color(rectData);
+          })
+          ttYear += 1;
+      }
   });
 
 });
