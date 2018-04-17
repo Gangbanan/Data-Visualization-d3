@@ -94,6 +94,7 @@ main{
 /* placement for the map of Ohio */
 #chart{
 	width: 800px;
+	height: 800px;
 	height: 350px;
 	position: relative;
 	left: 320px;
@@ -103,11 +104,90 @@ main{
 #slider{
 	width: 800px;
 	height: 100px;
-	background-color: aqua;
 	position: relative;
 	left: 320px;
 	top: 16px;
 }
+
+
+
+.slidecontainer {
+  width: 940px;
+  height: 15px;
+  margin-right: 20px;
+  margin-left: 16px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 920px;
+  height: 1px;
+  border-radius: 5px;
+  background: #000000;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #181818;
+	box-shadow: 1;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background: #fefefe;
+	cursor: pointer;
+}
+
+.key path {
+	display: none;
+}
+
+.key line {
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.line {
+	fill: none;
+	stroke: steelblue;
+	stroke-width: 2px;
+}
+
+.dot {
+	fill: #ffab00;
+	stroke: #fff;
+}
+
+.xaxis{
+	text-align: justify;
+	text-anchor: middle;
+	color: #000000;
+	min-width: 908px;
+	table-layout: fixed;
+	display:table-cell;
+}
+
+.xaxis:after {
+	content: '';
+	display: inline-block;
+	width: 100%;
+}
+
+.xaxis li {
+	display: inline-block;
+}
+
+
 
 /*=================================about page============================================*/
 
