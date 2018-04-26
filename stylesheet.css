@@ -232,7 +232,18 @@ main{
 	
 }
 
-
+.selectrect{
+	position: absolute;
+	width: 200;
+	height: 200;
+	margin: 0;
+	padding: 0;
+	border: 1px dashed #eee;
+	background-color: #aaa;
+	z-index: 1000;
+	opacity: 0.6;
+	display: none;
+}
 
 
 
