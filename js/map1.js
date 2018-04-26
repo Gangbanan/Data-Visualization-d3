@@ -131,7 +131,7 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
     var mouseOn = false;
     var startX = 0;
     var startY = 0;
-    var idset = {};
+    var idset = [];
     chartSvg.on("mousedown", function () {
 
         mouseOn = true;
@@ -141,7 +141,7 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
         selectrect.attr("transform", "translate(" + startX + "," + startY + ")")
             .style("fill", "#aaa")
             .style("opacity", 0.6);
-        idset = {};
+        idset = [];
     })
     .on("mousemove", function() {
         if (mouseOn) {
@@ -168,10 +168,21 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
                 nowid = d3.select(this).attr('id');
                 if (centerCord[nowid][0] < minX || centerCord[nowid][0] > maxX) return 0.5;
                 if (centerCord[nowid][1] < minY || centerCord[nowid][1] > maxY) return 0.5;
-                idset[nowid] = true;
+                idset.push(nowid)
                 return 1;
             })
             .style("stroke-width", "0.2px");
+
+            avgTemp = {}; // {year: temp, ...}
+            idset.forEach(function(d,i) {
+                Object.keys(tempData).forEach(function(dd) {
+                    // dd is year
+                    if (!avgTemp.hasOwnProperty(dd)) avgTemp[dd] = 0;
+                    avgTemp[dd] += tempData[dd][d];
+                })
+            })
+            Object.keys(avgTemp).forEach(function(key) { avgTemp[key] = avgTemp[key]*1.0/idset.length})
+            
         }
     })
 
