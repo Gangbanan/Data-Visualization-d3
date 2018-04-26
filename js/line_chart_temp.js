@@ -47,6 +47,30 @@ d3.select("#numDots")
     .attr("width", width + linemg.left + linemg.right)
     .attr("transform", "translate(" + linemg.left + "," + 0 + ")");
 
+// Update for the data Dict
+function draw_temp(dataDict){
+    // year : data
+    var data = []
+    var orderedDict = {};
+    Object.keys(dataDict).sort().forEach(function(key) {
+        orderedDict[key] = dataDict[key];
+    });
+    console.log(orderedDict);
+
+    for (var key in orderedDict) {
+        if (orderedDict.hasOwnProperty(key)) {
+            data.push( {"time": key, "temp": orderedDict[key]} );
+        }
+    }
+    console.log(data);
+    // Add the valueline path.
+    svg.select("path")
+        .data([data])
+        .attr("class", "line")
+        .attr("d", valueline);
+    
+}
+
 // Get the data
 d3.csv("data/oh-temp.csv", function(error, data) {
     data.forEach(function(d) {
@@ -59,7 +83,8 @@ d3.csv("data/oh-temp.csv", function(error, data) {
     data.forEach(function(d) {
         dataDict[d.time] = d.temp;
     });
-    console.log(dataDict)
+    // console.log(dataDict)
+
     // Scale the range of the data
     linexScale.domain(d3.extent(data, function(d) { return d.time; }));
     lineyScale.domain(d3.extent(data, function(d) { return d.temp; }));
@@ -69,6 +94,8 @@ d3.csv("data/oh-temp.csv", function(error, data) {
         .data([data])
         .attr("class", "line")
         .attr("d", valueline);
+    // console.log(data);
+    // draw_temp(dataDict);
 
     // // Add x axis
     // svg.append("g") 
@@ -119,6 +146,7 @@ d3.csv("data/oh-temp.csv", function(error, data) {
             year = document.getElementById("numDots").value;
             return "Temperature: "  + dataDict[year];
         });
+    
 
     document.getElementById("numDots").addEventListener('change', function(){
         year = document.getElementById("numDots").value;
