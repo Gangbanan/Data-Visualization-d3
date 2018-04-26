@@ -3,6 +3,7 @@
 var linemg = {top: 10, right: 20, bottom: 10, left: 20},
     width = 950 - linemg.left - linemg.right,
     height = 180 - linemg.top - linemg.bottom;
+var linepreYear = 1851;
 
 var linexScale = d3.scale.linear()
                     .range([0, width]);
@@ -122,24 +123,40 @@ d3.csv("data/precip-ts.csv", function(error, data) {
 
     document.getElementById("numDots").addEventListener('change', function(){
         year = document.getElementById("numDots").value;
+        year = +year;
         console.log(year);
-        svg.select("circle")
-            .attr("cx", function(d) {
-            return linexScale(year);
-            })
-            .attr("cy", function(d) {
-                return lineyScale(dataDict[year]);
-            })
+        dur = 200;
+        var ttYear = 0;
+        while (year != linepreYear) {
+            if (year > linepreYear) linepreYear += 1;
+            if (year < linepreYear) linepreYear -= 1;
+            console.log(ttYear)
+            svg.select("circle")
+                .transition()
+                .delay(dur*ttYear)
+                .duration(dur)
+                .attr("cx", function(d) {
+                return linexScale(linepreYear);
+                })
+                .attr("cy", function(d) {
+                    return lineyScale(dataDict[linepreYear]);
+                })
 
-        text_year.select("text")
-            .text(function(d) {
-                return "Year: " + year;
-            })
-        
-        text_data.select("text")
-            .text(function(d) {
-                return "Precipitation: "  + dataDict[year];
-            })
+            text_year.select("text")
+                .transition()
+                .delay(dur*ttYear)
+                .text(function(d) {
+                    return "Year: " + linepreYear;
+                })
+            
+            text_data.select("text")
+                .transition()
+                .delay(dur*ttYear)
+                .text(function(d) {
+                    return "Temperature: "  + dataDict[linepreYear];
+                })
+            ttYear += 1;
+        }
     });
       
 });
