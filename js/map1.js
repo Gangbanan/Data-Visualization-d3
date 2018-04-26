@@ -1,5 +1,6 @@
 // reference: https://bl.ocks.org/bricedev/97c53d6ed168902239f7
-
+//            https://bl.ocks.org/mbostock/4198499
+//            https://www.jianshu.com/p/5052c6fd2502
 
 var margin = {top: 20, right: 0, bottom: 0, left: 20},
     width = 800 - margin.left - margin.right,
@@ -89,20 +90,20 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
 
     var projection = d3.geoEquirectangular()
                 .fitExtent([[margin.left, margin.top], [margin.left + mapWidth, margin.top + mapHeight]], ohio);
-    var posMap = ['latitude', 'longitude'];
-    var posScreen = projection(posMap);
     var geoGenerator = d3.geoPath()
                     .projection(projection);
 
-    chartSvg.append("g")
+    var pictureG = chartSvg.append("g")
         .attr("class", "picture")
         .attr("transform", "translate(" + (0) + "," + 0 + ")")
-        .selectAll('path')
+        
+    pictureG.selectAll('path')
         .data(ohio.features)
         .enter()
         .append("path")
         .attr("class", "region")
         .attr("d", geoGenerator)
+        .attr("id", function(d,i){ return d['id'];})
         .style("fill", function(d,i) {
             year = document.getElementById("numDots").value;
             rectData = _f(tempData["" + year][d['id']])
@@ -113,8 +114,66 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
             rectData = _f(tempData["" + year][d['id']])
             return value2color(rectData);
         })
-        .style("stroke-width", "1px")
+        .style("stroke-width", "1px");
 
+
+    var centerCord = {}
+    ohio.features.forEach(function(d,i) {
+        if (d.geometry.type == "Polygon") {
+            centerCord[d["id"]] = projection(d.geometry.coordinates[0][0]);
+        } else if (d.geometry.type == "MultiPolygon") {
+            centerCord[d["id"]] = projection(d.geometry.coordinates[0][0][0]);
+        }
+        
+    })
+    var selectrect = chartSvg.append("rect")
+    var mouseStopId;
+    var mouseOn = false;
+    var startX = 0;
+    var startY = 0;
+    var idset = {};
+    chartSvg.on("mousedown", function () {
+
+        mouseOn = true;
+        var mousePos = d3.mouse(this)
+        startX = mousePos[0];
+        startY = mousePos[1];
+        selectrect.attr("transform", "translate(" + startX + "," + startY + ")")
+            .style("fill", "#aaa")
+            .style("opacity", 0.6);
+        idset = {};
+    })
+    .on("mousemove", function() {
+        if (mouseOn) {
+            var mousePos = d3.mouse(this)
+
+            selectrect.attr("transform", "translate(" + d3.min([mousePos[0], startX]) + "," + d3.min([mousePos[1], startY]) + ")")
+                .attr("width", d3.max([mousePos[0], startX]) - d3.min([mousePos[0], startX]))
+                .attr("height", d3.max([mousePos[1], startY]) - d3.min([mousePos[1], startY]));
+        }
+    })
+    .on("mouseup", function() {
+        if (mouseOn) {
+            mouseOn = false;
+            selectrect.style("opacity", 0)
+                .attr("width", 0)
+                .attr("height", 0);
+            var mousePos = d3.mouse(this)
+            var minX = d3.min([mousePos[0], startX]),
+                maxX = d3.max([mousePos[0], startX]),
+                minY = d3.min([mousePos[1], startY]),
+                maxY = d3.max([mousePos[1], startY]);
+            pictureG.selectAll('path')
+            .style("opacity", function(d,i) {
+                nowid = d3.select(this).attr('id');
+                if (centerCord[nowid][0] < minX || centerCord[nowid][0] > maxX) return 0.5;
+                if (centerCord[nowid][1] < minY || centerCord[nowid][1] > maxY) return 0.5;
+                idset[nowid] = true;
+                return 1;
+            })
+            .style("stroke-width", "0.2px");
+        }
+    })
 
 });
 
