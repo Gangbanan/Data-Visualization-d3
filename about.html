@@ -6,6 +6,87 @@
 		<link rel="stylesheet" href="stylesheet.css">
 	</head>
 	<body>
+	<style>
+    body {
+      font: 12px sans-serif;
+    }
+	
+	.slidecontainer {
+      width: 950px;
+      height: 15px;
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 925px;
+      height: 1px;
+      border-radius: 5px;
+      background: #000000;
+      outline: none;
+      opacity: 1;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+    .key path {
+      display: none;
+    }
+
+    .key line {
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
+
+    .dot {
+      fill: #ffab00;
+      stroke: #fff;
+    }
+
+    .xaxis{
+      text-align: justify;
+      text-anchor: middle;
+      color: #000000;
+      min-width: 908px;
+      table-layout: fixed;
+      display:table-cell;
+    }
+    
+    .xaxis:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    }
+
+    .xaxis li {
+    display: inline-block;
+    }
+    </style>  
+	
 		<header>
 			<h1>Climate Change in Ohio</h1>
 			<nav class="topnav">
