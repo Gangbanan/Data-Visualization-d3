@@ -6,6 +6,8 @@ var margin = {top: 20, right: 0, bottom: 0, left: 20},
     width = 800 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 var preYear = 1851
+var dur = 200,
+    outOpacity = 0.1;
 var mapWidth = 360,
     mapHeight = 300;
 
@@ -18,10 +20,11 @@ var mapWidth = 360,
 
 // three color range
 var axisDomain = [6, 7, 8, 9, 10, 11, 12, 13];
-var linearDomain = [5, 8, 14];
+var linearDomain = [5, 7, 8, 9, 10, 11, 12, 14];
 var value2color = d3.scale.linear()
                   .domain(linearDomain)
-                  .range(["#18517F", "#38A03F", "#EFB223"]);
+                  .range(["#215BA2", "#4F6AE5", "#7B9DFC", "#AAC3F5", "#D5D4D2", "#F0B69B", "#EE8466", "#A81426"])
+                  //.range(["#18517F", "#38A03F", "#EFB223"]);
 
 var colorx = d3.scale.linear()
         .domain([5, 14])
@@ -64,6 +67,7 @@ var _p2 = d3.format(".0%");
 
 for (var i = 0; i < clRg.length; i++) {
     var pct = (clDm[i] - clDm[0]) / (clDm[clDm.length-1] - clDm[0]);
+
     linearGradient.append("stop").attr("offset", _p2(pct)).attr("stop-color", clRg[i]);
 }
 
@@ -126,6 +130,7 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
         }
         
     })
+
     var selectrect = chartSvg.append("rect")
     var mouseStopId;
     var mouseOn = false;
@@ -166,11 +171,12 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
             pictureG.selectAll('path')
             .style("opacity", function(d,i) {
                 nowid = d3.select(this).attr('id');
-                if (centerCord[nowid][0] < minX || centerCord[nowid][0] > maxX) return 0.5;
-                if (centerCord[nowid][1] < minY || centerCord[nowid][1] > maxY) return 0.5;
+                if (centerCord[nowid][0] < minX || centerCord[nowid][0] > maxX) return outOpacity;
+                if (centerCord[nowid][1] < minY || centerCord[nowid][1] > maxY) return outOpacity;
                 idset.push(nowid)
                 return 1;
             })
+            .style("stroke", "black")
             .style("stroke-width", "0.2px");
 
             avgTemp = {}; // {year: temp, ...}
@@ -182,39 +188,44 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
                 })
             })
             Object.keys(avgTemp).forEach(function(key) { avgTemp[key] = avgTemp[key]*1.0/idset.length})
-            
+            console.log(avgTemp)
+            draw_temp(avgTemp)
         }
     })
+    
+
 
 });
 
-  document.getElementById("numDots").addEventListener('change', function(){
-      year = document.getElementById("numDots").value;
-      year = +year;
-      var ttYear = 0;
-      dur = 200;
-      while (year != preYear) {
-          if (year > preYear) preYear += 1;
-          if (year < preYear) preYear -= 1;
-          console.log(preYear)
-          chartSvg.selectAll('path')
-          .transition()
-          .delay(dur*ttYear)
-          .duration(dur)
-          .style("fill",function(d,i){
+    document.getElementById("numDots").addEventListener('change', function(){
+        year = document.getElementById("numDots").value;
+        year = +year;
+        var ttYear = 0;
+        function _changeColor(nowYear) {
+            chartSvg.selectAll('path')
+            .transition()
+            .duration(dur)
+            .style("fill",function(d,i){
+                // tempData['year'][d['id']] for temperature in this polygon in this year
+                rectData = _f(tempData["" + nowYear][d['id']])
+                return value2color(rectData);
+            })
+            .style("stroke",function(d,i){
 
-              // tempData['year'][d['id']] for temperature in this polygon in this year
-              rectData = _f(tempData["" + preYear][d['id']])
-              return value2color(rectData);
-          })
-          .style("stroke",function(d,i){
-
-              // tempData['year'][d['id']] for temperature in this polygon in this year
-              rectData = _f(tempData["" + preYear][d['id']])
-              return value2color(rectData);
-          })
-          ttYear += 1;
-      }
+                // tempData['year'][d['id']] for temperature in this polygon in this year
+                rectData = _f(tempData["" + nowYear][d['id']])
+                return value2color(rectData);
+            })
+        }
+        function changeColor(nowYear) {
+            return function() { _changeColor(nowYear); }
+        }
+        while (year != preYear) {
+            if (year > preYear) preYear += 1;
+            if (year < preYear) preYear -= 1;
+            setTimeout(changeColor(preYear), dur*ttYear);
+            ttYear += 1;
+        }
     });
 
 });
