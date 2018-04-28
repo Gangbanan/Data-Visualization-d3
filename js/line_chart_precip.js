@@ -1,17 +1,14 @@
+// Reference: https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0
+//            https://bl.ocks.org/mbostock/6452972
+//            https://bl.ocks.org/mbostock/1166403
 
 // Set the dimensions of the canvas / graph
 var linemg = {top: 10, right: 20, bottom: 10, left: 20},
-<<<<<<< HEAD
-    width = 1235 - linemg.left - linemg.right,
-    height = 234 - linemg.top - linemg.bottom;
-
-=======
     lineWidth = 950 - linemg.left - linemg.right,
     lineHeight = 180 - linemg.top - linemg.bottom;
 var linepreYear = 1851;
 var dur = 200;
 var lineChangeDur = 2000;
->>>>>>> f122880032dbdf15b6c2e27def07e53e7c502270
 var linexScale = d3.scale.linear()
                     .range([0, lineWidth]);
 
