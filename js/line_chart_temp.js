@@ -1,3 +1,6 @@
+// Reference: https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0
+//            https://bl.ocks.org/mbostock/6452972
+//            https://bl.ocks.org/mbostock/1166403
 
 // Set the dimensions of the canvas / graph
 var linemg = {top: 10, right: 20, bottom: 10, left: 20},
