@@ -2,7 +2,7 @@
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
-	color: #636363;
+	color: #363636;
 	margin: 0;
 }
 /*universal left and right spacting*/
@@ -10,7 +10,8 @@ header{
 	margin: 0 5vw;
 	margin-top: 20px;
 	padding-bottom: 5px;
-	border-bottom: 2px solid #636363;
+	border-bottom: 2px solid #363636;
+	max-width: 1250px
 }
 h1{
 	font-size: 2em;
@@ -18,9 +19,17 @@ h1{
 }
 h2{
 	font-size: 1.5em;
+	-webkit-margin-before: 0.63em;
+    -webkit-margin-after: 0.43em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
 }
 h3{
 	font-size: 1.5em;
+}
+h4{
+	font-size: 1em;
 }
 p{
 	font-size: 1em;
@@ -36,7 +45,7 @@ p{
 /* Style the links inside the navigation bar */
 .topnav a {
 	float: left;
-	color: #636363;
+	color: #545454;
 	text-align: center;
 	padding: 8px;
 	text-decoration: none;
@@ -57,13 +66,13 @@ p{
 
 /* Add a color to the active/current link */
 .topnav a.active {
-	color: #ededed;
+	color: #aaaaaa;
 	background-color: none;
 	cursor: default;
 }
 .topnav a.active:hover {
 	background-color: #fefefe;
-	color: #ededed;
+	color: #aaaaaa;
 	border-radius: 0;
 }
 
@@ -72,7 +81,7 @@ p{
 /* Style and place information on the main page */
 main{
 	margin: 0 5vw;
-	margin-top: 5vh;
+	margin-top: 3vh;
 }
 /* Style the left section with text copy inside */
 .left-section{
@@ -81,32 +90,38 @@ main{
 	position: absolute;
 	
 }
-/* Position the key for the map */
-.right-section{
-	position: absolute;
-	max-width: 100px;
-	right: 5vw;
-	top: 50px;
-	margin-top: 5vh;
-	
-}
+
 /*need some media queries possibly*/
+/*need some media queries for x overflow*/
 /* placement for the map of Ohio */
 #chart{
 	width: 800px;
-	height: 800px;
-	height: 350px;
+	height: 600px;
 	position: relative;
-	left: 320px;
-	top: 0;
+	left: 420px;
+	top: -60px;
 }
-/* placement for the time slider */
-#slider{
-	width: 800px;
+
+.key-measurement{
+	position: absolute;
+	left: 1130px;
+	top: 125px;
+}
+
+#linechart{
+	width: 100%;
 	height: 100px;
 	position: relative;
-	left: 320px;
-	top: 16px;
+	left: 23px;
+	top: -150px;
+}
+/* placement for the time slider */
+.slidecontainer{
+	width: 100%;
+	height: 100px;
+	position: relative;
+	left: 20px;
+
 }
 
 
@@ -120,10 +135,10 @@ main{
 
 .slider {
   -webkit-appearance: none;
-  width: 920px;
+  width: 1200px;
   height: 1px;
   border-radius: 5px;
-  background: #000000;
+  background: #545454;
   outline: none;
   opacity: 1;
   -webkit-transition: 0.2s;
@@ -132,19 +147,20 @@ main{
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
-  background: #181818;
-	box-shadow: 1;
+  background: #fefefe;
+	border: 2px solid #545454;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-	width: 15px;
-	height: 15px;
+	width: 19px;
+	height: 19px;
 	border-radius: 50%;
 	background: #fefefe;
+	border: 2px solid #545454;
 	cursor: pointer;
 }
 
@@ -159,7 +175,7 @@ main{
 
 .line {
 	fill: none;
-	stroke: steelblue;
+	stroke: #545454;
 	stroke-width: 2px;
 }
 
@@ -172,9 +188,12 @@ main{
 	text-align: justify;
 	text-anchor: middle;
 	color: #000000;
-	min-width: 908px;
+	min-width: 1200px;
+	padding-top: 10px;
 	table-layout: fixed;
 	display:table-cell;
+	font-size: 1.1em;
+	color: #545454;
 }
 
 .xaxis:after {
@@ -187,6 +206,19 @@ main{
 	display: inline-block;
 }
 
+#displaybox_year,
+#displaybox_data{
+	font-size: 1.7em;
+}
+
+#displaybox_year{
+	position: relative;
+	top: 400px;
+}
+#displaybox_data{
+	position: relative;
+	top: 400px;
+}
 
 
 /*=================================about page============================================*/
@@ -226,6 +258,15 @@ main{
 }
 .jared > h3{
 	padding-top: 10px;
+}
+.yihang > h3{
+	padding-top: 40px;
+}
+.chengfei > h3{
+	padding-top: 40px;
+}
+.xin > h3{
+	padding-top: 70px;
 }
 /* style the copy text in the profile section */
 .profile > p{

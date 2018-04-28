@@ -1,12 +1,12 @@
 // reference: https://bl.ocks.org/bricedev/97c53d6ed168902239f7
 
 
-var margin = {top: 20, right: 0, bottom: 0, left: 20},
-    width = 800 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = {top: 30, right: 0, bottom: 0, left: 30},
+    width = 1000 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 var preYear = 1851
-var mapWidth = 360,
-    mapHeight = 300;
+var mapWidth = 540,
+    mapHeight = 450;
 
 // temperature ranges from 5 to 14
 

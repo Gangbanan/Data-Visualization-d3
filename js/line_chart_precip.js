@@ -1,8 +1,8 @@
 
 // Set the dimensions of the canvas / graph
 var linemg = {top: 10, right: 20, bottom: 10, left: 20},
-    width = 950 - linemg.left - linemg.right,
-    height = 180 - linemg.top - linemg.bottom;
+    width = 1235 - linemg.left - linemg.right,
+    height = 234 - linemg.top - linemg.bottom;
 
 var linexScale = d3.scale.linear()
                     .range([0, width]);
