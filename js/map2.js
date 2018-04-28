@@ -17,7 +17,7 @@ var mapWidth = 360,
 //     .range(["#1230FC", "#448CFF", "#CCDCFF", "#FFFF86", "#FFFF20", "#FD8308", "#FA3407", "#F10006"]);
 //     // .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"])
 
-// three color range
+// define color scale and axis stick
 var axisDomain = [2, 2.5, 3, 3.5, 4, 4.5, 5];
 var linearDomain = axisDomain;
 var value2color = d3.scale.linear()
@@ -35,6 +35,7 @@ function _f(d){
   return x/mutiCoef;
 }
 
+// draw axis stick
 var colorAxis = d3.svg.axis()
     .scale(colorx)
     .orient("right")
@@ -48,7 +49,7 @@ var chartSvg = d3.select("#chart").append("svg")
     .attr("height", height + margin.top + margin.bottom)
 
 
-// add axis
+// add axis color using linearGradient
 var defs = chartSvg.append("defs");
 var linearGradient = defs.append("linearGradient")
     .attr("id", "linear-gradient")
@@ -81,15 +82,14 @@ var g = chartSvg.append("g")
     .attr("transform", "translate(" + (margin.left+mapWidth+40) + "," + margin.top + ")");
 g.call(colorAxis);
 
-// load data  data/oh-albers-color.ndjson
 // 1851-2014
 d3.json("data/oh-precip.json", function(error,tempData) {
     
-// load data  data/oh-albers-color.ndjson
 d3.json("data/oh-albers-density.json", function(error, ohio) {
     // if data is topojson
     // var ohio = ohio.feature(ohio, ohio.objects.counties);
 
+    // define geo data generator
     var projection = d3.geoEquirectangular()
                 .fitExtent([[margin.left, margin.top], [margin.left + mapWidth, margin.top + mapHeight]], ohio);
     var geoGenerator = d3.geoPath()
@@ -98,7 +98,8 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
     var pictureG = chartSvg.append("g")
         .attr("class", "picture")
         .attr("transform", "translate(" + (0) + "," + 0 + ")")
-        
+
+    // drawing map and color for it
     pictureG.selectAll('path')
         .data(ohio.features)
         .enter()
@@ -118,7 +119,8 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
         })
         .style("stroke-width", "1px");
 
-
+    // centerCord is pick one cordinate as its representive 
+    // cordinate for later testing if it is in the selected rect
     var centerCord = {}
     ohio.features.forEach(function(d,i) {
         if (d.geometry.type == "Polygon") {
@@ -129,6 +131,11 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
         
     })
 
+    // deal with draging and showing the rect selected with mouse move
+    // when detecting mousedown, display the rect by changing opacity
+    //                mousemove, change width, height and transform
+    //                mouseup, hide the rect and hide outside path
+    //                         call redrawing the line chart
     var selectrect = chartSvg.append("rect")
     var mouseStopId;
     var mouseOn = false;
@@ -194,7 +201,7 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
 
 
 });
-
+    // add change listener for input
     document.getElementById("numDots").addEventListener('change', function(){
         year = document.getElementById("numDots").value;
         year = +year;
