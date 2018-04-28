@@ -1,5 +1,6 @@
 // reference: https://bl.ocks.org/bricedev/97c53d6ed168902239f7
-
+//            https://bl.ocks.org/mbostock/4198499
+//            https://www.jianshu.com/p/5052c6fd2502
 
 var margin = {top: 30, right: 0, bottom: 0, left: 30},
     width = 1000 - margin.left - margin.right,
@@ -7,20 +8,20 @@ var margin = {top: 30, right: 0, bottom: 0, left: 30},
 var preYear = 1851
 var mapWidth = 540,
     mapHeight = 450;
+var dur = 200,
+    outOpacity = 0.1;
+var mapWidth = 360,
+    mapHeight = 300;
 
 // temperature ranges from 5 to 14
 
-// var value2color = d3.scale.threshold()
-//     .domain([5, 6.5, 8, 9.5, 11 , 12.5, 14])
-//     .range(["#1230FC", "#448CFF", "#CCDCFF", "#FFFF86", "#FFFF20", "#FD8308", "#FA3407", "#F10006"]);
-//     // .range(["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"])
-
-// three color range
+// define color scale and axis stick
 var axisDomain = [6, 7, 8, 9, 10, 11, 12, 13];
-var linearDomain = [5, 8, 14];
+var linearDomain = [5, 7, 8, 9, 10, 11, 12, 14];
 var value2color = d3.scale.linear()
                   .domain(linearDomain)
-                  .range(["#18517F", "#38A03F", "#EFB223"]);
+                  .range(["#215BA2", "#4F6AE5", "#7B9DFC", "#AAC3F5", "#D5D4D2", "#F0B69B", "#EE8466", "#A81426"])
+                  //.range(["#18517F", "#38A03F", "#EFB223"]);
 
 var colorx = d3.scale.linear()
         .domain([5, 14])
@@ -33,6 +34,7 @@ function _f(d){
   return x/mutiCoef;
 }
 
+// draw axis stick
 var colorAxis = d3.svg.axis()
     .scale(colorx)
     .orient("right")
@@ -46,7 +48,7 @@ var chartSvg = d3.select("#chart").append("svg")
     .attr("height", height + margin.top + margin.bottom)
 
 
-// add axis
+// add axis color using linearGradient
 var defs = chartSvg.append("defs");
 var linearGradient = defs.append("linearGradient")
     .attr("id", "linear-gradient")
@@ -60,11 +62,8 @@ linearGradient
 var clRg = value2color.range() // color range
 var clDm = value2color.domain() // color domain
 var _p2 = d3.format(".0%");
-
 for (var i = 0; i < clRg.length; i++) {
     var pct = (clDm[i] - clDm[0]) / (clDm[clDm.length-1] - clDm[0]);
-    console.log(pct)
-    console.log(_p2(pct))
     linearGradient.append("stop").attr("offset", _p2(pct)).attr("stop-color", clRg[i]);
 }
 
@@ -80,35 +79,34 @@ var g = chartSvg.append("g")
     .attr("transform", "translate(" + (margin.left+mapWidth+40) + "," + margin.top + ")");
 g.call(colorAxis);
 
-// load data  data/oh-albers-color.ndjson
 // 1851-2014
 d3.json("data/oh-temp.json", function(error,tempData) {
     
-// load data  data/oh-albers-color.ndjson
 d3.json("data/oh-albers-density.json", function(error, ohio) {
     // if data is topojson
     // var ohio = ohio.feature(ohio, ohio.objects.counties);
 
+    // define geo data generator
     var projection = d3.geoEquirectangular()
                 .fitExtent([[margin.left, margin.top], [margin.left + mapWidth, margin.top + mapHeight]], ohio);
-    var posMap = ['latitude', 'longitude'];
-    var posScreen = projection(posMap);
     var geoGenerator = d3.geoPath()
                     .projection(projection);
 
-    chartSvg.append("g")
+    var pictureG = chartSvg.append("g")
         .attr("class", "picture")
         .attr("transform", "translate(" + (0) + "," + 0 + ")")
-        .selectAll('path')
+    
+    // drawing map and color for it
+    pictureG.selectAll('path')
         .data(ohio.features)
         .enter()
         .append("path")
         .attr("class", "region")
         .attr("d", geoGenerator)
+        .attr("id", function(d,i){ return d['id'];})
         .style("fill", function(d,i) {
             year = document.getElementById("numDots").value;
             rectData = _f(tempData["" + year][d['id']])
-            console.log(rectData)
             return value2color(rectData);
         })
         .style("stroke", function(d,i) {
@@ -116,28 +114,122 @@ d3.json("data/oh-albers-density.json", function(error, ohio) {
             rectData = _f(tempData["" + year][d['id']])
             return value2color(rectData);
         })
-        .style("stroke-width", "1px")
+        .style("stroke-width", "1px");
+
+    // centerCord is pick one cordinate as its representive 
+    // cordinate for later testing if it is in the selected rect
+    var centerCord = {}
+    ohio.features.forEach(function(d,i) {
+        if (d.geometry.type == "Polygon") {
+            centerCord[d["id"]] = projection(d.geometry.coordinates[0][0]);
+        } else if (d.geometry.type == "MultiPolygon") {
+            centerCord[d["id"]] = projection(d.geometry.coordinates[0][0][0]);
+        }
+        
+    })
+
+    // deal with draging and showing the rect selected with mouse move
+    // when detecting mousedown, display the rect by changing opacity
+    //                mousemove, change width, height and transform
+    //                mouseup, hide the rect and hide outside path
+    //                         call redrawing the line chart
+    var selectrect = chartSvg.append("rect")
+    var mouseStopId;
+    var mouseOn = false;
+    var startX = 0;
+    var startY = 0;
+    var idset = [];
+    chartSvg.on("mousedown", function () {
+
+        mouseOn = true;
+        var mousePos = d3.mouse(this)
+        startX = mousePos[0];
+        startY = mousePos[1];
+        selectrect.attr("transform", "translate(" + startX + "," + startY + ")")
+            .style("fill", "#aaa")
+            .style("opacity", 0.6);
+        idset = [];
+    })
+    .on("mousemove", function() {
+        if (mouseOn) {
+            var mousePos = d3.mouse(this)
+
+            selectrect.attr("transform", "translate(" + d3.min([mousePos[0], startX]) + "," + d3.min([mousePos[1], startY]) + ")")
+                .attr("width", d3.max([mousePos[0], startX]) - d3.min([mousePos[0], startX]))
+                .attr("height", d3.max([mousePos[1], startY]) - d3.min([mousePos[1], startY]));
+        }
+    })
+    .on("mouseup", function() {
+        if (mouseOn) {
+            mouseOn = false;
+            selectrect.style("opacity", 0)
+                .attr("width", 0)
+                .attr("height", 0);
+            var mousePos = d3.mouse(this)
+            var minX = d3.min([mousePos[0], startX]),
+                maxX = d3.max([mousePos[0], startX]),
+                minY = d3.min([mousePos[1], startY]),
+                maxY = d3.max([mousePos[1], startY]);
+            pictureG.selectAll('path')
+            .style("opacity", function(d,i) {
+                nowid = d3.select(this).attr('id');
+                if (centerCord[nowid][0] < minX || centerCord[nowid][0] > maxX) return outOpacity;
+                if (centerCord[nowid][1] < minY || centerCord[nowid][1] > maxY) return outOpacity;
+                idset.push(nowid)
+                return 1;
+            })
+            .style("stroke", "black")
+            .style("stroke-width", "0.2px");
+
+            avgTemp = {}; // {year: temp, ...}
+            idset.forEach(function(d,i) {
+                Object.keys(tempData).forEach(function(dd) {
+                    // dd is year
+                    if (!avgTemp.hasOwnProperty(dd)) avgTemp[dd] = 0;
+                    avgTemp[dd] += tempData[dd][d];
+                })
+            })
+            Object.keys(avgTemp).forEach(function(key) { avgTemp[key] = avgTemp[key]*1.0/idset.length})
+            console.log(avgTemp)
+            draw_temp(avgTemp)
+        }
+    })
+    
 
 
 });
+    
+    // add change listener for input
+    document.getElementById("numDots").addEventListener('change', function(){
+        year = document.getElementById("numDots").value;
+        year = +year;
+        var ttYear = 0;
+        function _changeColor(nowYear) {
+            chartSvg.selectAll('path')
+            .transition()
+            .duration(dur)
+            .style("fill",function(d,i){
+                // tempData['year'][d['id']] for temperature in this polygon in this year
+                rectData = _f(tempData["" + nowYear][d['id']])
+                return value2color(rectData);
+            })
+            .style("stroke",function(d,i){
 
-  document.getElementById("numDots").addEventListener('change', function(){
-      year = document.getElementById("numDots").value;
-      chartSvg.selectAll('path')
-      .transition().duration(400)
-      .style("fill",function(d,i){
-
-          // tempData['year'][d['id']] for temperature in this polygon in this year
-          rectData = _f(tempData["" + year][d['id']])
-          return value2color(rectData);
-      })
-      .style("stroke",function(d,i){
-
-          // tempData['year'][d['id']] for temperature in this polygon in this year
-          rectData = _f(tempData["" + year][d['id']])
-          return value2color(rectData);
-      })
-  });
+                // tempData['year'][d['id']] for temperature in this polygon in this year
+                rectData = _f(tempData["" + nowYear][d['id']])
+                return value2color(rectData);
+            })
+        }
+        function changeColor(nowYear) {
+            return function() { _changeColor(nowYear); }
+        }
+        while (year != preYear) {
+            if (year > preYear) preYear += 1;
+            if (year < preYear) preYear -= 1;
+            setTimeout(changeColor(preYear), dur*ttYear);
+            ttYear += 1;
+        }
+    });
 
 });
 
