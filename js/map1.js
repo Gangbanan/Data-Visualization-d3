@@ -6,12 +6,10 @@ var margin = {top: 30, right: 0, bottom: 0, left: 30},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 var preYear = 1851
-var mapWidth = 540,
-    mapHeight = 450;
 var dur = 200,
     outOpacity = 0.1;
-var mapWidth = 360,
-    mapHeight = 300;
+var mapWidth = 540,
+    mapHeight = 450;
 
 // temperature ranges from 5 to 14
 

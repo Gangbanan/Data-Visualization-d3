@@ -135,7 +135,7 @@ main{
 
 .slider {
   -webkit-appearance: none;
-  width: 1200px;
+  width: 940;
   height: 1px;
   border-radius: 5px;
   background: #545454;
@@ -188,7 +188,7 @@ main{
 	text-align: justify;
 	text-anchor: middle;
 	color: #000000;
-	min-width: 1200px;
+	min-width: 940px;
 	padding-top: 10px;
 	table-layout: fixed;
 	display:table-cell;
