@@ -116,26 +116,17 @@ main{
 	top: -150px;
 }
 /* placement for the time slider */
-.slidecontainer{
-	width: 100%;
-	height: 100px;
-	position: relative;
-	left: 20px;
-
-}
-
-
 
 .slidecontainer {
-  width: 940px;
+  width: 930px;
   height: 15px;
   margin-right: 20px;
-  margin-left: 16px;
+  margin-left: 36px;
 }
 
 .slider {
   -webkit-appearance: none;
-  width: 940;
+  width: 925px;
   height: 1px;
   border-radius: 5px;
   background: #545454;
