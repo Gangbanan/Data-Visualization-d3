@@ -105,7 +105,7 @@ function draw_temp(dataDict){
         .attr("dy", ".35em")
         .text(function(d) {
             year = document.getElementById("numDots").value;
-            return "Temperature: "  + dataDict[year];
+            return "Precipitation: "  + dataDict[year];
         });
 
     document.getElementById("numDots").removeEventListener('change', changeLine);
@@ -138,7 +138,7 @@ function draw_temp(dataDict){
                 .transition()
                 .delay(dur*ttYear)
                 .text(function(d) {
-                    return "Temperature: "  + dataDict[linepreYear];
+                    return "Precipitation: "  + dataDict[linepreYear];
                 })
             ttYear += 1;
         }
@@ -220,7 +220,7 @@ d3.csv("data/precip-ts.csv", function(error, data) {
         .attr("dy", ".35em")
         .text(function(d) {
             year = document.getElementById("numDots").value;
-            return "Temperature: "  + dataDict[year];
+            return "Precipitation: "  + dataDict[year];
         });
 
     changeLine = function(){
@@ -253,7 +253,7 @@ d3.csv("data/precip-ts.csv", function(error, data) {
                 .transition()
                 .delay(dur*ttYear)
                 .text(function(d) {
-                    return "Temperature: "  + dataDict[linepreYear];
+                    return "Precipitation: "  + dataDict[linepreYear];
                 })
             ttYear += 1;
         }
